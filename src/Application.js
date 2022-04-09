@@ -1,5 +1,5 @@
-import React, { StrictMode } from "react";
-import { Route, Redirect, createRoot } from "react-router-dom";
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
 import ApplicationViews from "./applicationViews";
 import { Login } from "./components/auth/Login";
 import { Register } from "./components/auth/Register.js";
