@@ -5,6 +5,7 @@ import { getBlogPosts, deleteBlogPost } from '../fetches/blogpost';
 
 export const MyPosts = () => {
     const user = parseInt(localStorage.getItem("userId"))
+    const history = useHistory()
     const [posts, setPosts] = useState([])
     const [myposts, setMyPosts] = useState([])
 
@@ -44,8 +45,8 @@ export const MyPosts = () => {
                                 return <>
                                     <div className="column is-one-quarter content is-small is-mobile">
                                         <div className="box">
-                                            <h1>{post.title}</h1>
-                                            <img src={"http://localhost:8000" + post.picture} />
+                                            <h1 className="postLink" onClick={()=>{history.push(`/allposts/${post.id}`)}}>{post.title}</h1>
+                                            <img className="img" src={"http://localhost:8000" + post.picture} onClick={()=>{history.push(`/allposts/${post.id}`)}}/>
                                             <p></p>
                                             <div className="columns">
                                                 <button type="submit" className="button is-small is-danger is-light" onClick={(e) => {
