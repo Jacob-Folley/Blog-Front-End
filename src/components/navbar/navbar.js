@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 
 
 export const NavBar = () => {
-
+    const history = useHistory()
 
 
     return (
@@ -12,7 +12,7 @@ export const NavBar = () => {
 
             <nav className="navbar has-shadow" role="navigation" aria-label="main navigation">
                 <div className="navbar-brand">
-                    <a className="navbar-item" href="https://bulma.io">
+                    <a className="navbar-item" href="https://www.arborday.org/trees/treefacts/">
                         <img src="https://pngimg.com/uploads/tree/tree_PNG92760.png" />
                     </a>
 
@@ -27,7 +27,7 @@ export const NavBar = () => {
                     <div className="navbar-start">
                         <Link className="navbar-item" to="/allposts">Home</Link>
                         <Link className="navbar-item" to="/myposts">My Posts</Link>
-                        <Link className="navbar-item" to="">Profile</Link>
+                        <Link className="navbar-item" to="/profile">Profile</Link>
                     </div>
 
                     <div className="navbar-end">
@@ -42,7 +42,10 @@ export const NavBar = () => {
                                     <a className="button is-primary">
                                         <strong>Theme</strong>
                                     </a>
-                                    <a className="button is-light">
+                                    <a className="button is-light" onClick={()=>{
+                                        localStorage.clear()
+                                        history.push("/")
+                                    }}>
                                         Log out
                                     </a>
                                 </div>

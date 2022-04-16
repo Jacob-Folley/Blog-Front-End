@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { NavBar } from '../navbar/navbar';
 import { getBlogPosts, deleteBlogPost } from '../fetches/blogpost';
+import { Footer } from './footer'
 
 export const MyPosts = () => {
     const user = parseInt(localStorage.getItem("userId"))
@@ -37,6 +38,12 @@ export const MyPosts = () => {
     return (
         <>
             <NavBar />
+            <section className="section is-small">
+                <div className="columns is-centered">
+                    <input className="input column is-4 is-small" type="text" placeholder="search" />
+                    <button className="button is-small" type="submit">search</button>
+                </div>
+            </section>
             <div className="container">
                 <section className="section is-small">
                     <div className="columns is-centered is-multiline">
@@ -45,10 +52,10 @@ export const MyPosts = () => {
                                 return <>
                                     <div className="column is-one-quarter content is-small is-mobile">
                                         <div className="box">
-                                            <h1 className="postLink" onClick={()=>{history.push(`/allposts/${post.id}`)}}>{post.title}</h1>
-                                            <img className="img" src={"http://localhost:8000" + post.picture} onClick={()=>{history.push(`/allposts/${post.id}`)}}/>
+                                            <img className="img" src={"http://localhost:8000" + post.picture} onClick={() => { history.push(`/allposts/${post.id}`) }} />
+                                            <h1 className="postLink content is-medium" onClick={() => { history.push(`/allposts/${post.id}`) }}>{post.title}</h1>
                                             <p></p>
-                                            <div className="columns">
+                                            <div className="columns is-centered">
                                                 <button type="submit" className="button is-small is-danger is-light" onClick={(e) => {
                                                     e.preventDefault()
                                                     deleteBlogPost(post.id).then(blogPostings)
@@ -63,6 +70,8 @@ export const MyPosts = () => {
                     </div>
                 </section>
             </div>
+
+            <Footer />
         </>
     )
 }
