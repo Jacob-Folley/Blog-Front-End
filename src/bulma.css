@@ -13,4 +13,13 @@
 
 .postLink {
     cursor: pointer;
+    text-align: center;
+}
+
+.postName {
+    text-align: end;
+}
+
+.likeShare {
+   
 }

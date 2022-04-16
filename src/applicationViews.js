@@ -4,6 +4,7 @@ import { HomePage } from "./components/pages/homepage"
 import { MyPosts } from "./components/pages/myposts"
 import { AllPosts } from "./components/pages/allposts"
 import { SinglePost } from "./components/pages/singlepost"
+import { Profile } from "./components/pages/profile"
 
 
 
@@ -36,6 +37,11 @@ const ApplicationViews = () => {
             <Route exact path="/allposts/:postId">
                 <SinglePost />
             </Route>
+
+            <Route exact path="/profile">
+                <Profile />
+            </Route>
+        
         
         </>
     )

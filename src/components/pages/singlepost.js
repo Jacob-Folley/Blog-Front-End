@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { NavBar } from '../navbar/navbar';
 import { getBlogPost } from '../fetches/blogpost';
+import { Footer } from './footer'
 
 export const SinglePost = () => {
     const { postId } = useParams()
@@ -32,10 +33,25 @@ export const SinglePost = () => {
                             </div>
 
                             <div className="columns is-centered">
-                                <p className="content is-small">By: {post.user?.username}</p>
+                                <p className="content is-small">By: {post.user?.user?.username}</p>
                             </div>
 
-                            <div class="box">
+                            <nav className="level is-mobile">
+                                <div className="level-left likeShare">
+                                    <a className="level-item">
+                                        <span className="icon is-small has-text-link"><i className="fas fa-reply"></i></span>
+                                    </a>
+                                    <a className="level-item">
+                                        <span className="icon is-small has-text-grey-lighter"><i className="fas fa-retweet"></i></span>
+                                    </a>
+                                    <a className="level-item">
+                                        <span className="icon is-small has-text-grey-lighter"><i className="fas fa-heart"></i></span>
+                                    </a>
+                                </div>
+                            </nav>
+
+                            <div className="box">
+                                <p className="content is-small"><b><i>Summary</i></b></p>
                                 <p className="content is-small"><i>{post.summary}</i></p>
                             </div>
                             <div className="box">
@@ -60,6 +76,7 @@ export const SinglePost = () => {
                 </div>
             </section>
 
+            <Footer />
 
         </>
     )

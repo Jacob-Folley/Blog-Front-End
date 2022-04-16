@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { NavBar } from '../navbar/navbar';
-import { getBlogPosts } from '../fetches/blogpost';
+import { getBlogPosts, deleteBlogPost } from '../fetches/blogpost';
+import { Footer } from './footer'
 
 export const AllPosts = () => {
     const user = parseInt(localStorage.getItem("userId"))
+    const history = useHistory()
     const [posts, setPosts] = useState([])
 
     useEffect(
@@ -16,6 +18,13 @@ export const AllPosts = () => {
         },
         []
     )
+
+    const blogPostings = () => {
+        getBlogPosts()
+            .then((data) => {
+                setPosts(data)
+            })
+    }
 
 
 
@@ -35,9 +44,10 @@ export const AllPosts = () => {
                             posts.map((post) => {
                                 return <>
                                     <div className="column is-one-quarter content is-small is-mobile">
-                                        <div className="box colorHover">
-                                            <h1>{post.title}</h1>
-                                            <p>{post.summary}</p>
+                                        <div className="box">
+                                            <img className="img" src={"http://localhost:8000" + post.picture} onClick={() => { history.push(`/allposts/${post.id}`) }} />
+                                            <h1 className="postLink content is-medium" onClick={() => { history.push(`/allposts/${post.id}`) }}>{post.title}</h1>
+                                            <p className="content postName">{post.user?.user?.username}</p>
                                         </div>
                                     </div>
                                 </>
@@ -46,6 +56,8 @@ export const AllPosts = () => {
                     </div>
                 </section>
             </div>
+
+            <Footer />
         </>
     )
 }

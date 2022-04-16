@@ -2,13 +2,13 @@ import React, { useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 export const Login = () => {
-    const username = useRef();
-    const password = useRef();
-    const invalidDialog = useRef();
-    const history = useHistory();
+    const username = useRef()
+    const password = useRef()
+    const invalidDialog = useRef()
+    const history = useHistory()
 
     const handleLogin = (e) => {
-        e.preventDefualt();
+        e.preventDefault();
 
         return fetch("http://127.0.0.1:8000/login", {
             method: "POST",
@@ -45,8 +45,8 @@ export const Login = () => {
                     <h1>Blog</h1>
                     <h2>Please sign in</h2>
                     <fieldset>
-                        <label htmlFor="inputUsername"> Username address </label>
-                        <input ref={username} type="username" id="username" className="form-control" placeholder="Username address" required autoFocus />
+                        <label htmlFor="inputUsername"> Username </label>
+                        <input ref={username} type="text" id="username" className="form-control" placeholder="Username address" required autoFocus />
                     </fieldset>
                     <fieldset>
                         <label htmlFor="inputPassword"> Password </label>

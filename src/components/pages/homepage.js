@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { NavBar } from '../navbar/navbar';
 import { createBlogPost } from '../fetches/blogpost';
-
+import { Footer } from './footer'
 
 export const HomePage = () => {
     // VARIABLES
@@ -59,7 +59,7 @@ export const HomePage = () => {
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(file);
     }
-    
+
     const createImageString = (event) => {
         getBase64(event.target.files[0], (base64ImageString) => {
             console.log("Base64 of file is", base64ImageString);
@@ -67,7 +67,7 @@ export const HomePage = () => {
             copy.file = base64ImageString
 
             updateForm(copy)
-    
+
             // Update a component state variable to the value of base64ImageString
         });
     }
@@ -76,81 +76,85 @@ export const HomePage = () => {
         <>
             <NavBar />
             <h1></h1>
-            <div className="container box">
-                <section className="section is-small">
+            <section className="section is-small">
+                <div className="container box">
+                    <section className="section is-small">
 
-                    <form>
-                        {/* TITLE */}
-                        <div className="field">
-                            <div className="control">
-                                <input className="input" type="text" name="title" placeholder="Title" value={form.title} onChange={changeFormState}></input>
-                            </div>
-                        </div>
-
-                        <div className="columns is-gapless">
-                            {/* FILE UPLOAD */}
-                            <div className="file is-small is-primary column">
-                                <label className="file-label">
-                                    <input className="file-input" type="file" name="picture" onChange={createImageString} />
-                                    <span className="file-cta">
-                                        <span className="file-icon">
-                                            <i className="fas fa-upload"></i>
-                                        </span>
-                                        <span className="file-label">
-                                            Choose a file…
-                                        </span>
-                                    </span>
-                                    <span className="file-name">
-                                        {form.picture}
-                                    </span>
-                                </label>
+                        <form>
+                            {/* TITLE */}
+                            <div className="field">
+                                <div className="control">
+                                    <input className="input" type="text" name="title" placeholder="Title" value={form.title} onChange={changeFormState}></input>
+                                </div>
                             </div>
 
-                            {/* ADD TAGS */}
-                            <div className="control column is-2">
-                                <input className="input is-small" ref={tagRef} id="tag" type="text" name="tags" placeholder="Tags" onChange={captureTag}></input>
+                            <div className="columns is-gapless">
+                                {/* FILE UPLOAD */}
+                                <div className="file is-small is-primary column">
+                                    <label className="file-label">
+                                        <input className="file-input" type="file" name="picture" onChange={createImageString} />
+                                        <span className="file-cta">
+                                            <span className="file-icon">
+                                                <i className="fas fa-upload"></i>
+                                            </span>
+                                            <span className="file-label">
+                                                Choose a file…
+                                            </span>
+                                        </span>
+                                        <span className="file-name">
+                                            {form.picture}
+                                        </span>
+                                    </label>
+                                </div>
+
+                                {/* ADD TAGS */}
+                                <div className="control column is-2">
+                                    <input className="input is-small" ref={tagRef} id="tag" type="text" name="tags" placeholder="Tags" onChange={captureTag}></input>
+                                </div>
+                                <div>
+                                    <button className="button is-small column" type="submit" onClick={addTag}>add</button>
+                                </div>
+                            </div>
+
+                            {/* PRINTS TAGS */}
+                            <div className="columns is-gapless">
+                                {
+                                    tags.map((tag) => {
+                                        return <div className="column content is-small"><p>{tag}</p></div>
+                                    })
+                                }
                             </div>
                             <div>
-                                <button className="button is-small column" type="submit" onClick={addTag}>add</button>
+                                {/* SUMMARY INPUT */}
+                                <textarea className="textarea is-small" name="summary" placeholder="Summary" rows="3" value={form.summary} onChange={changeFormState}></textarea>
                             </div>
-                        </div>
+                            <div>
+                                {/* CONTENT INPUT */}
+                                <textarea className="textarea is-small" name="content" placeholder="Content" rows="50" value={form.content} onChange={changeFormState}></textarea>
+                            </div>
+                            {/* BUTTON THAT POSTS FORM TO DJANGO DATABASE */}
+                            <button className="button" type="submit" onClick={(e) => {
+                                e.preventDefault();
+                                const blogposting = {
+                                    title: form.title,
+                                    file: form.file,
+                                    tags: tags,
+                                    summary: form.summary,
+                                    content: form.content,
+                                    user: user
+                                }
+                                console.log(blogposting)
 
-                        {/* PRINTS TAGS */}
-                        <div className="columns is-gapless">
-                            {
-                                tags.map((tag) => {
-                                    return <div className="column content is-small"><p>{tag}</p></div>
-                                })
-                            }
-                        </div>
-                        <div>
-                            {/* SUMMARY INPUT */}
-                            <textarea className="textarea is-small" name="summary" placeholder="Summary" rows="3" value={form.summary} onChange={changeFormState}></textarea>
-                        </div>
-                        <div>
-                            {/* CONTENT INPUT */}
-                            <textarea className="textarea is-small" name="content" placeholder="Content" rows="50" value={form.content} onChange={changeFormState}></textarea>
-                        </div>
-                        {/* BUTTON THAT POSTS FORM TO DJANGO DATABASE */}
-                        <button className="button" type="submit" onClick={(e) => {
-                            e.preventDefault();
-                            const blogposting = {
-                                title: form.title,
-                                file: form.file,
-                                tags: tags,
-                                summary: form.summary,
-                                content: form.content,
-                                user: user
-                            }
-                            console.log(blogposting)
+                                // CALL FETCH FOR CREATING BLOG POST OBJECT
+                                createBlogPost(blogposting)
+                                    .then(() => history.push("/myposts"))
+                            }}>Post</button>
+                        </form>
+                    </section>
+                </div>
+            </section>
 
-                            // CALL FETCH FOR CREATING BLOG POST OBJECT
-                            createBlogPost(blogposting)
-                                .then(() => history.push("/myposts"))
-                        }}>Post</button>
-                    </form>
-                </section>
-            </div>
+            <Footer />
         </>
     )
 }
