@@ -1,5 +1,5 @@
 export const getProfiles = () => {
-    return fetch("http://localhost:8000/blogposts", {
+    return fetch("http://localhost:8000/blogger", {
       headers: {
         "Authorization": `Token ${localStorage.getItem("lu_token")}`
       }
@@ -8,7 +8,7 @@ export const getProfiles = () => {
   }
   
   export const createProfile = (blogger) => {
-    return fetch("http://localhost:8000/bloggers", {
+    return fetch("http://localhost:8000/blogger", {
       method: "POST",
       headers: {
         "Authorization": `Token ${localStorage.getItem("lu_token")}`,
@@ -20,7 +20,7 @@ export const getProfiles = () => {
   }
   
   export const getProfile = (bloggerId) => {
-    return fetch(`http://localhost:8000/blogposts/${bloggerId}`, {
+    return fetch(`http://localhost:8000/blogger/${bloggerId}`, {
       headers: {
         'Authorization': `Token ${localStorage.getItem('lu_token')}`
       }
@@ -39,7 +39,7 @@ export const getProfiles = () => {
   }
   
   export const deleteProfile = (bloggerId) => {
-    return fetch(`http://localhost:8000/blogposts/${bloggerId}`, {
+    return fetch(`http://localhost:8000/blogger/${bloggerId}`, {
       method: "Delete",
       headers: {
         "Authorization": `Token ${localStorage.getItem("lu_token")}`,
