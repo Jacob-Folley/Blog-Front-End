@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParms, useHistory } from 'react-router-dom';
 import { NavBar } from '../navbar/navbar'
-import { getProfile, createProfile } from '../fetches/profile'
+import { getProfile, getProfiles, createProfile, deleteProfile } from '../fetches/profile'
 
 export const Profile = () => {
     const user = parseInt(localStorage.getItem("userId"))
     const history = useHistory()
 
     const [profileInfo, setProfileInfo] = useState({})
+    const [profiles, setProfiles] = useState([])
     const [form, updateForm] = useState({
-        picture: {},
+        picture: "",
         summary: '',
         user: user
     });
@@ -18,6 +19,11 @@ export const Profile = () => {
         getProfileInformation()
     },
         [])
+    
+    useEffect(() => {
+        getProfiles().then((data) => {setProfiles(data)})
+    },
+    [])
 
     const changeFormState = (domEvent) => {
         const copy = { ...form }
@@ -44,15 +50,25 @@ export const Profile = () => {
     }
 
     const getProfileInformation = () => {
-        getProfile(user).then((data) => {
+        getProfile(foundProfile?.id).then((data) => {
             setProfileInfo(data)
         })
     }
+
+    const foundProfile = profiles.find((number) => {
+        return user == number.user?.id
+    })
+
     return (
         <>
             <NavBar />
-
-            {profileInfo.summary ? <h1>"Profile is there"</h1>
+            {/* {getProfileInformation()} */}
+            {profileInfo.summary ? 
+                <>
+                <h1>"Profile is there"</h1>
+                <img src={"http://localhost:8000" + profileInfo.picture} />
+                <p>{profileInfo.summary}</p>
+                </>
                 :
                 <>
                     <h1>"Create a profile"</h1>
