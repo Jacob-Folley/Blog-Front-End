@@ -15,16 +15,19 @@ export const Profile = () => {
         user: user
     });
 
-    useEffect(() => {
-        getProfileInformation()
-    },
-        [])
+    //Gets the user profile
+    // useEffect(() => {
+    //     getProfileInformation()
+    // },
+    //     [])
     
+    //Fetches all the profiles
     useEffect(() => {
         getProfiles().then((data) => {setProfiles(data)})
     },
     [])
 
+    
     const changeFormState = (domEvent) => {
         const copy = { ...form }
         copy[domEvent.target.name] = (domEvent.target.value)
@@ -49,6 +52,7 @@ export const Profile = () => {
         });
     }
 
+    //Function that fetches the profile
     const getProfileInformation = () => {
         getProfile(foundProfile?.id).then((data) => {
             setProfileInfo(data)
@@ -59,15 +63,21 @@ export const Profile = () => {
         return user == number.user?.id
     })
 
+    let checkProfile = profiles.find((number)=> {
+        return number.user?.id == user
+    })
+
+
     return (
         <>
             <NavBar />
+            
             {/* {getProfileInformation()} */}
-            {profileInfo.summary ? 
+            {checkProfile?.summary ? 
                 <>
                 <h1>"Profile is there"</h1>
-                <img src={"http://localhost:8000" + profileInfo.picture} />
-                <p>{profileInfo.summary}</p>
+                <img src={"http://localhost:8000" + checkProfile.picture} />
+                <p>{checkProfile.summary}</p>
                 </>
                 :
                 <>
